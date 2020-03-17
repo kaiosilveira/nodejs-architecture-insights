@@ -30,7 +30,11 @@ async function run() {
 
   const { router } = Resource.for({
     tag: userTag,
-    entity: new entities[userTag]({ repo: repositories[userTag] })
+    entity: new entities[userTag]({ repo: repositories[userTag] }),
+    supports: {
+      get: ["list"],
+      post: ["validate", "save", "sanitize"]
+    }
   });
 
   app.use(`/${BASE_URL}/${API_VERSION}`, router);
