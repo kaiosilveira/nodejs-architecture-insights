@@ -4,6 +4,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import configureDb from "./db";
 import User from "./user";
+import * as pplStages from "./pipeline";
 import Resource from "./resource";
 
 const userTag = "user";
@@ -28,12 +29,16 @@ async function run() {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
+  const entity = new entities[userTag]({ repo: repositories[userTag] });
   const { router } = Resource.for({
     tag: userTag,
-    entity: new entities[userTag]({ repo: repositories[userTag] }),
     supports: {
-      get: ["list"],
-      post: ["validate", "save", "sanitize"]
+      get: [pplStages.list(entity)],
+      post: [
+        pplStages.validate(entity),
+        pplStages.save(entity),
+        pplStages.sanitize(entity)
+      ]
     }
   });
 

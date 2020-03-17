@@ -2,15 +2,11 @@ import Pipeline from "./pipeline";
 import express from "express";
 
 export default class Resource {
-  static for({ entity, tag, supports }) {
-    const pipeline = Pipeline.for(entity);
+  static for({ tag, supports }) {
     const router = express.Router();
 
-    Object.keys(supports).forEach(key => {
-      const transformations = supports[key].map(
-        transformation => pipeline[transformation]
-      );
-      router.route(`/${tag}s`)[key](...transformations);
+    Object.entries(supports).forEach(([key, stages]) => {
+      router.route(`/${tag}s`)[key](...stages);
     });
 
     return { router };
