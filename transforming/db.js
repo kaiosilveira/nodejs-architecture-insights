@@ -6,11 +6,11 @@ async function configureDb({ url, port, name }) {
     useUnifiedTopology: true
   });
 
-  const User = connection.model("user", {
+  const user = connection.model("user", {
     name: String
   });
 
-  const Todo = connection.model(
+  const todo = connection.model(
     "todo",
     new mongoose.Schema({
       title: { type: String, required: true },
@@ -22,7 +22,7 @@ async function configureDb({ url, port, name }) {
     })
   );
 
-  return { User, Todo };
+  return { user, todo };
 }
 
 export default configureDb;

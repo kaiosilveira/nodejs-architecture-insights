@@ -3,17 +3,23 @@ import http from "http";
 import express from "express";
 import bodyParser from "body-parser";
 import configureDb from "./db";
-import * as userPipeline from "./user-pipeline";
+import User from "./user";
+import Resource from "./resource";
+
+const userTag = "user";
+const entities = { [userTag]: User };
 
 dotEnv.config();
 
 const app = express();
-const PORT = 8080;
+const PORT = process.env.PORT;
+const API_VERSION = process.env.API_VERSION;
+const BASE_URL = process.env.BASE_URL;
 
 run();
 
 async function run() {
-  const { User } = await configureDb({
+  const repositories = await configureDb({
     name: process.env.DB_NAME,
     port: process.env.DB_PORT,
     url: process.env.DB_URL
@@ -22,18 +28,12 @@ async function run() {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
-  // first transformation
-  // - receive the user name
-  // - validate it
-  // - save to database
-  // - sanitize the return
-  // - answer to the caller
-  app.post(
-    "/api/v1.0.0/users",
-    userPipeline.validate,
-    userPipeline.save(User),
-    userPipeline.sanitize
-  );
+  const { router } = Resource.for({
+    tag: userTag,
+    entity: new entities[userTag]({ repo: repositories[userTag] })
+  });
+
+  app.use(`/${BASE_URL}/${API_VERSION}`, router);
 
   http.createServer(app).listen(PORT, () => {
     console.log(`🚀 Server running at ${PORT}`);
