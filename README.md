@@ -31,3 +31,8 @@ In order to make us able to perform different levels of validation, we choose to
 - A client cannot update any field of the to-do after it was marked as completed, but he can toggle the "completed" flag
 - It's not possible to update someone elses to-do
 - The required fields are: Title and ownerId
+
+# Patterns to try
+- Object-oriented
+- Transforming
+- Finit state machine (probably used together with transforming?)
