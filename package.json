@@ -1,0 +1,13 @@
+{
+  "name": "nodejs-architecture-insights",
+  "version": "1.0.0",
+  "description": "API to try some architectural patterns in a NodeJS API and check which one performs best",
+  "main": "server.js",
+  "author": "Kaio Silveira",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.5"
+  }
+}
