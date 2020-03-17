@@ -33,6 +33,6 @@ In order to make us able to perform different levels of validation, we choose to
 - The required fields are: Title and ownerId
 
 # Patterns to try
-- Object-oriented
-- Transforming
-- Finit state machine (probably used together with transforming?)
+- Object-oriented programming with a DDD approach
+- Transforming programming with a functional approach
+- Finit state machine (probably used together with some of the above?)
