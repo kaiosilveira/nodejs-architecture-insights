@@ -5,6 +5,7 @@ This is a research project which aims to experiment some architectural patterns 
 **The problem**
 
 There are two problems we are particularly interested to solve:
+
 - Error handling across the boundaries of the system (Presentation level, Application level and so on)
 - Schema validation across the boundaries of the system
 
@@ -28,11 +29,17 @@ We will be using MongoDB as our database and Mongoose as our ORM to manipulate d
 **Domain rules**
 
 In order to make us able to perform different levels of validation, we choose to add some simple domain rules, seen below:
+
 - A client cannot update any field of the to-do after it was marked as completed, but he can toggle the "completed" flag
 - It's not possible to update someone elses to-do
 - The required fields are: Title and ownerId
 
 **Patterns to try**
+
 - Object-oriented programming with a DDD approach
 - Transforming programming with a functional approach
 - Finit state machine (probably used together with some of the above?)
+
+**Avaliable scripts**
+
+- `start-transforming`: start the app which implements the transforming programming model
