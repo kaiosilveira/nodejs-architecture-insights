@@ -13,11 +13,6 @@ export default class Resource {
       router.route(`/${tag}s`)[key](...transformations);
     });
 
-    // router
-    //   .route(`/${tag}s`)
-    //   .post(pipeline.validate, pipeline.save, pipeline.sanitize)
-    //   .get(pipeline.list);
-
     return { router };
   }
 }
