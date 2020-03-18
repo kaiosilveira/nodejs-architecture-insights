@@ -9,19 +9,24 @@ export default class User {
   }
 
   validate(obj) {
+    console.log(">> validate called", obj);
+
     if (!obj.name) {
       return { error: true, reason: "Invalid user name" };
     }
 
-    return { ok: true, value: { name: obj.name } };
+    return obj;
   }
 
   sanitize(obj) {
+    console.log(">> sanitize called", obj);
+
     const { _id, name } = obj;
     return { _id, name };
   }
 
   async createAsync(obj) {
+    console.log(">> create called", obj);
     return await this.repo.create(obj);
   }
 

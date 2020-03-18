@@ -2,6 +2,7 @@
   "presets": ["@babel/preset-env"],
   "plugins": [
     "@babel/plugin-transform-runtime",
-    "babel-plugin-transform-async-to-generator"
+    "babel-plugin-transform-async-to-generator",
+    ["@babel/plugin-proposal-pipeline-operator", { "proposal": "smart" }]
   ]
 }

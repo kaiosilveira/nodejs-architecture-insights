@@ -1,27 +1,18 @@
-import Resource from "../../resource";
 import User from "./user";
-import transformations from "./transformations";
 
 export default function userResource({ tags, repositories, artifacts }) {
-  const entity = new User({ repo: repositories[tags.user] });
-  const {
-    ok,
-    created,
-    list,
-    validate,
-    save,
-    sanitize,
-    logUserName
-  } = transformations({
-    entity
+  const user = new User({ repo: repositories[tags.user] });
+  const router = artifacts.express.Router();
+
+  router.route(`/users`).post(async (req, res, next) => {
+    const created = user => res.status(201).json(user)
+    req.body
+      |> user.validate
+      |> user.createAsync
+      |> await #
+      |> user.sanitize
+      |> created;
   });
 
-  return Resource.for({
-    router: artifacts.express.Router(),
-    tag: tags.user,
-    supports: {
-      get: [list, sanitize, logUserName, ok],
-      post: [validate, save, logUserName, sanitize, created]
-    }
-  });
+  return { router };
 }
