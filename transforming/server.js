@@ -3,14 +3,13 @@ import http from "http";
 import express from "express";
 import bodyParser from "body-parser";
 import configureDb from "./db";
-import User from "./user";
-import * as pplStages from "./pipeline";
-import Resource from "./resource";
+import userResource from "./resources/user";
 
-const userTag = "user";
-const entities = { [userTag]: User };
+const tags = { user: "user" };
 
 dotEnv.config();
+
+const artifacts = { express };
 
 const app = express();
 const PORT = process.env.PORT;
@@ -26,21 +25,10 @@ async function run() {
     url: process.env.DB_URL
   });
 
+  const { router } = userResource({ tags, repositories, artifacts });
+
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
-
-  const entity = new entities[userTag]({ repo: repositories[userTag] });
-  const { router } = Resource.for({
-    tag: userTag,
-    supports: {
-      get: [pplStages.list(entity)],
-      post: [
-        pplStages.validate(entity),
-        pplStages.save(entity),
-        pplStages.sanitize(entity)
-      ]
-    }
-  });
 
   app.use(`/${BASE_URL}/${API_VERSION}`, router);
 
